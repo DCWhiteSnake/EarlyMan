@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using EarlyMan.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using EarlyMan.Models;
 
 namespace EarlyMan
 {
@@ -58,6 +57,11 @@ namespace EarlyMan
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}");
+
+                routes.MapRoute(
+                    name: "",
+                    template: "{controller}/{action}",
+                    defaults: new { action = "Index" });
             });
             SeedData.EnsurePopulated(app);
         }
