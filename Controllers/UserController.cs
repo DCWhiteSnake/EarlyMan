@@ -39,7 +39,7 @@ namespace EarlyMan.Controllers
                     await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("WelcomePage");
+                    return RedirectToActionPermanent(nameof(WelcomePage));
                 }
                 else
                 {
