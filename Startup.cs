@@ -15,7 +15,7 @@ namespace EarlyMan
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
-            Configuration["Data:3dProdLocation:ConnectionString"]));
+            Configuration["Data:ProductDatabase:Product"]));
             services.AddDbContext<AppIdentityDbContext>(options =>
             options.UseSqlServer(Configuration["Data:EarlyManIdentity:ConnectionString"]));
 
@@ -38,7 +38,7 @@ namespace EarlyMan
             services.ConfigureApplicationCookie(opts
                 => opts.LoginPath = "/User/SignIn");
 
-            services.AddTransient<IPrintRepository, EFPrintRepository>();
+            services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddMvc();
         }
 
@@ -54,7 +54,6 @@ namespace EarlyMan
                     name: "default",
                     template: "{controller=Home}/{action=Index}");
             });
-            SeedData.EnsurePopulated(app);
         }
     }
 }

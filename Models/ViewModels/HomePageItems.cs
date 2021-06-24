@@ -7,10 +7,8 @@ namespace EarlyMan.Models.ViewModels
     public class HomepageItems
     {
         // Do I plug in the services I have created here?
-        public IPrintRepository PrintRepository { get; set; }
+        public IProductRepository ProductRepository { get; set; }
 
         public IPromotionRepository PromotionRepository { get; set; }
-
-        public HttpContext Context { get; set; }
     }
 }

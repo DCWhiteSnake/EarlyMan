@@ -4,16 +4,15 @@ using System.Collections.Generic;
 
 namespace EarlyMan.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initiial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Prints",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Categories = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
@@ -21,7 +20,7 @@ namespace EarlyMan.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prints", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,7 +42,7 @@ namespace EarlyMan.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Prints");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Promos");

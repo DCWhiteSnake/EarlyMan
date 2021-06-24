@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using EarlyMan.Models;
+﻿using EarlyMan.Models;
 using EarlyMan.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
-using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EarlyMan.Controllers
 {
@@ -11,15 +9,13 @@ namespace EarlyMan.Controllers
     public class HomeController : Controller
     {
         private HomepageItems HomePageVM { get; set; }
-        private HttpContext Cxt { get; set; }
 
-        public HomeController(IPrintRepository print, IPromotionRepository promo)
+        public HomeController(IProductRepository product, IPromotionRepository promo)
         {
             HomePageVM = new HomepageItems
             {
-                PrintRepository = print,
+                ProductRepository = product,
                 PromotionRepository = promo,
-                Context = Cxt
             };
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EarlyMan.Models.ViewModels
 {
-    public class LoginModel
+    public class LoginModel : ILoginModel
     {
         [Required(ErrorMessage = "Please enter a valid email address")]
         [RegularExpression(".+\\@.+\\..+",

@@ -18,20 +18,15 @@ namespace EarlyMan
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
-            Configuration["Data:3dProdLocation:ConnectionString"]));
+            Configuration["Data:ProductDatabase:ConnectionString"]));
+
             services.AddDbContext<AppIdentityDbContext>(options =>
             options.UseSqlServer(Configuration["Data:EarlyManIdentity:ConnectionString"]));
 
             services.AddIdentity<AppUser, IdentityRole>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;
-
                 opts.Password.RequiredLength = 6;
-                opts.Password.RequireDigit = false;
-                opts.Password.RequireUppercase = false;
-                opts.Password.RequireLowercase = false;
-                opts.Password.RequireDigit = false;
-                opts.Password.RequireNonAlphanumeric = false;
             })
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
@@ -41,7 +36,7 @@ namespace EarlyMan
             services.ConfigureApplicationCookie(opts
                 => opts.LoginPath = "/User/SignIn");
 
-            services.AddTransient<IPrintRepository, EFPrintRepository>();
+            services.AddTransient<IProductRepository, EFProductRepository>();
             services.AddMvc();
         }
 
