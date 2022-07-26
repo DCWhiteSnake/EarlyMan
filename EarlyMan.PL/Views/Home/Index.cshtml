@@ -1,0 +1,17 @@
+﻿@model HomePageViewModel
+<section class="row limited clear-fix">
+   <div class="column small-12">@{
+
+          var promotion = (@Model.Promotions == null)?
+          "~/assets/promotions/availability.png":@Model.Promotions[0].ImageLocation;
+          <img src=@Url.Content(promotion) 
+          alt="Promotion Image: Shows a photo of an aerial view 
+          of a location in lagos with text 'We sheep artwork to all parts of lagos'"
+          focusable="false"/>
+          <!--width="1140" height="561"/>-->
+      }
+   </div>
+</section>
+<div>
+    @await Html.PartialAsync("_ProductShowcase", @Model)
+</div>

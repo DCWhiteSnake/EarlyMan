@@ -1,0 +1,15 @@
+﻿@media only screen and (min-width: 768px) {
+    nav li{float: left; margin: 2vw}
+    nav ul {display: block; float: right;} 
+    nav button {display: none;}
+
+    .medium-6{width: 50%;}
+    .product_img {
+        height: 250px
+    }
+    main .medium-6 {
+        height: 380px;
+    }
+}
+
+/* end of media for medium screen sizesquery*/

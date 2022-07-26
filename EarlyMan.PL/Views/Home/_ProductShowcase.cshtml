@@ -1,0 +1,36 @@
+﻿@model HomePageViewModel
+<div class="row limited clear-fix">
+    <section class="column small-12">
+     <h2>Items</h2>
+     </section>
+     </div>
+     <div class="row limited clear-fix">
+    @foreach (var product in Model.Products)
+    {
+       
+       <section class="column small-12 medium-6 large-3">    
+           <!--Display the products plus description-->     
+           <img class="product_img" alt="product image" 
+                src=@string.Concat("assets/Products/",
+                product.ImageLocation)>
+                <form method="post">
+                <input type="hidden" value=@product.ProductId name="productId">
+                <button  type="submit" asp-controller="Product" asp-action="Details"><h3>@product.Name</h3></button>
+                </form>
+                <p>@product.Description </p>      
+                
+                @{
+                        var prices = @product.CurrentPrice.ToString("N2").Split('.');
+                        var thousands = prices[0];
+                        var decimals = prices[1]; 
+                 }
+                <span class="smallmoney">$</span> <span class="money">@thousands</span>
+                <span class="smallmoney">@decimals</span>
+                
+                
+
+            </section>    
+    }
+</div>
+
+   

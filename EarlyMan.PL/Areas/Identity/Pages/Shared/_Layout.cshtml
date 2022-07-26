@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Favicon -->
+    <link href="favicon.ico" rel="icon" />
+   
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,700;1,300&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/4405757738.js"
+    crossorigin="anonymous"></script>
+    
+    <!-- client-side libraries-->
+    <link rel="stylesheet" href="~/lib/normalize/normalize.min.css"/>
+    
+    <!-- Style sheets-->
+    <link rel="stylesheet" href="~/css/small.css" />
+    <link rel="stylesheet" href="~/css/medium.css" />
+    <link rel="stylesheet" href="~/css/large.css" />
+    
+    <!-- Page title-->
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+        @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        }
+</body>
+</html>
+
+
