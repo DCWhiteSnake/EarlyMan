@@ -20,22 +20,32 @@ namespace EarlyMan.PL.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
-        {
-        }
-
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        public async Task<IActionResult> OnGet(string returnUrl = "home")
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
+            if (returnUrl == "home")
             {
-                return LocalRedirect(returnUrl);
+                return RedirectToRoute("default");
             }
             else
             {
                 return Page();
             }
         }
+
+        //public async Task<IActionResult> OnPost(string returnUrl = null)
+        //{
+        //    await _signInManager.SignOutAsync();
+        //    _logger.LogInformation("User logged out.");
+        //    if (returnUrl != null)
+        //    {
+        //        return LocalRedirect(returnUrl);
+        //    }
+        //    else
+        //    {
+        //        return Page();
+        //    }
+        //}
     }
 }

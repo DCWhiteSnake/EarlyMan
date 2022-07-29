@@ -7,16 +7,14 @@
      <div class="row limited clear-fix">
     @foreach (var product in Model.Products)
     {
-       
-       <section class="column small-12 medium-6 large-3">    
+        
+        <section class="column small-12 medium-6 large-3">    
            <!--Display the products plus description-->     
            <img class="product_img" alt="product image" 
                 src=@string.Concat("assets/Products/",
                 product.ImageLocation)>
-                <form method="post">
-                <input type="hidden" value=@product.ProductId name="productId">
-                <button  type="submit" asp-controller="Product" asp-action="Details"><h3>@product.Name</h3></button>
-                </form>
+
+                <h3>@product.Name</h3>
                 <p>@product.Description </p>      
                 
                 @{
@@ -26,7 +24,10 @@
                  }
                 <span class="smallmoney">$</span> <span class="money">@thousands</span>
                 <span class="smallmoney">@decimals</span>
-                
+                                <form method="post">
+                <input type="hidden" value=@product.ProductId name="productId">
+                <button  type="submit" asp-controller="Product" asp-action="Details">Cart it!</button>
+                </form>
                 
 
             </section>    

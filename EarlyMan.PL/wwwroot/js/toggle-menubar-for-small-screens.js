@@ -2,8 +2,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     let hamburger = document.getElementById("hamburgerBtn");
     function toggleMenu() {
-        document.getElementById("primaryNav").classList.toggle("open");
-        hamburger.classList.toggle("orange_for_toggler");
+        document.getElementsByClassName("authbar")[0].classList.toggle("open");
+        /*hamburger.classList.toggle("orange_for_toggler");*/
     }
     hamburger.onclick = toggleMenu;
 });

@@ -8,8 +8,9 @@
         else
         {
             var serialNum = 1;
-
-            <table>
+            
+            <div class="row limited clear-fix">
+            <table class="column small-12">
                 <thead>
                     <tr>
                         <td>S/N</td>
@@ -18,7 +19,6 @@
                         <td>Price</td>
                         <td>Quantity</td>
                         <td>SubTotal</td>
-                        <td></td>
                         <td></td>
                     </tr>
                 </thead>
@@ -46,15 +46,10 @@
                     <td>
                         <form style="width:100%;display:inline;">
                            <input hidden value=@item.ProductId/>
-                           <button>Remove</button>
+                           <button class="red-button">Remove</button>
                         </form>
                     </td>
-                    <td>
-                        <form style="width:100%;display:inline;">
-                            <input hidden value=@item.ProductId/>
-                            <button>Modify</button>
-                        </form>
-                    </td>
+
                 </tr>
                  serialNum += 1;
                  
@@ -62,7 +57,10 @@
                 </tbody>
             </table>
 
-            <button>Checkout</button>
+                <div class="column small-12">
+                    <button class="checkout-button">Checkout</button>
+                </div>
+            </div>
         
         }
     }

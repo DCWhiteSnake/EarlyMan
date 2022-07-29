@@ -51,9 +51,7 @@
     
     <nav class="clear-fix">      
         <div class="row limited">         
-             <button id="hamburgerBtn">&#9776;</button>             
-            @* @(await Html.PartialAsync("_LoginPartial", new ViewDataDictionary(ViewData){
-                 {"Count", @Model.Count} })) *@ 
+             <button id="hamburgerBtn">&#9776;</button>              
              @(await Html.PartialAsync("_LoginPartial"))  
                  
         </div>
@@ -67,7 +65,9 @@
     
     <footer class="clear-fix">
         <div class="row limited">
+             @*
             <section class="column small-12 medium-6 large-3 ">
+
                 <h2>Get to Know Us</h2>
                 <ul>
                     <li>Make Money with Us</li>
@@ -88,9 +88,9 @@
                     <li>Become an Affiliate</li>
                     <li>Advertise Your Products</li>
                 </ul>
-            </section>
-            <section class="container column small-12 medium-6 large-3">
-                <h2>COVID-19</h2>
+            </section>*@
+            <section class="container column small-12">
+                <h2>Personal</h2>
                 <ul>
                     <li>Your Account</li>
                     <li>Your Orders</li>
@@ -99,7 +99,7 @@
             </section>
 
             <section class="column small-12 medium-6 large-3">
-                <h2>About Us</h2>
+                <h2></h2>
                 <img src="images/EarlyManLogo.svg" alt="logo" id="footer-img" />
                 <p>&copy; 2022 &bull; all rights reserved.</p>
             </section>

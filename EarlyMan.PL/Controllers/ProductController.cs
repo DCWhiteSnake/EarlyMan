@@ -9,6 +9,8 @@ namespace EarlyMan.PL.Controllers
     {
         public readonly IProductRepository _productRepo;
         public readonly IMapper _mapper;
+
+      
         
         public ProductController(IProductRepository productRepository, IMapper mapper)
         {
@@ -16,11 +18,22 @@ namespace EarlyMan.PL.Controllers
             _mapper = mapper;
         }
   
+        
         public IActionResult Details(Guid productId)
-        {
+        {     
+            //var productGuid = Guid.Parse(productId);
             var product = _productRepo.GetProductById(productId);
             var productDto = _mapper.Map<BL.Models.ProductDto>(product);
             return View(productDto);
+        }
+
+        
+        public IActionResult Product([FromQuery]Guid productId)
+        {
+            //var productGuid = Guid.Parse(productId);
+            var product = _productRepo.GetProductById(productId);
+            var productDto = _mapper.Map<BL.Models.ProductDto>(product);
+            return View("Details", productDto);
         }
 
 
