@@ -2,7 +2,7 @@
 <section class="row limited clear-fix">
    <div class="column small-12">@{
 
-          var promotion = (@Model.Promotions == null)?
+          var promotion = (@Model.Promotions.FirstOrDefault() == null)?
           "~/assets/promotions/availability.png":@Model.Promotions[0].ImageLocation;
           <img src=@Url.Content(promotion) 
           alt="Promotion Image: Shows a photo of an aerial view 

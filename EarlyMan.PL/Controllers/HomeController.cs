@@ -19,57 +19,53 @@ namespace EarlyMan.Controllers
         private readonly IProductRepository _prodRepo;
         private readonly IPromotionRepository _promoRepo;
         private readonly ICartRepository _cartRepo;
+        private readonly ICartItemRepository _cartItemRepo;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        
-        // todo: Move somewhere else to make pagination easier
-        public int _pageSize = 12;
 
-        public HomeController(IProductRepository prodRepo, IPromotionRepository promoRepo, ICartRepository cartRepo, IMapper mapper,
+        public HomeController(IProductRepository prodRepo, IPromotionRepository promoRepo, ICartRepository cartRepo, ICartItemRepository cartItemRepository, IMapper mapper,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _promoRepo = promoRepo;
             _prodRepo = prodRepo;
             _cartRepo = cartRepo;
+            _cartItemRepo = cartItemRepository;
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
-        [AllowAnonymous]
-     
-        public ViewResult Index()
+        [AllowAnonymous]     
+        public ViewResult Index(int pageNumber = 1,int pageSize = 12)
         {
-            // extract claims from http request
-            //ClaimsPrincipal principal = HttpContext.User;
-
-            //if (_signInManager.IsSignedIn(principal))
-            //{
-            //    _signInManager.SignOutAsync().Wait();
-            //}
             ViewBag.Title = "Home | EarlyMan";
             HomePageViewModel homePageItems = new()
             {
-                Products = GetProductsAsDtos(_pageSize).ToList(),
+                Products = GetProductsAsDtos(pageNumber, pageSize).ToList(),
                 Promotions = GetPromotionAsDtos().ToList(),
-                Count = GetCartSize()
+
             };
-       
+
+            if (_signInManager.IsSignedIn(User))
+            {
+                var userId = new Guid(HttpContext.User.Claims.FirstOrDefault
+                (c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+                ViewData["ItemCount"] = _cartItemRepo.Count(userId);
+            }
+
+            else
+            {
+                homePageItems = new()
+                {
+                    Products = GetProductsAsDtos(pageNumber, pageSize).ToList(),
+                    Promotions = GetPromotionAsDtos().ToList()
+                };
+            }
+            
             return View(homePageItems);
         }
-
-        [AllowAnonymous]
-        public ViewResult ProductShowcase() => View();
-
-        [AllowAnonymous]
-       
-        public ViewResult ShoppingCart() => View("Cart", "Index");
-
-        // Insert method that handles checking out and payments here.
-        [Authorize]
-      
-        public ActionResult Checkout() => View();
 
         [AllowAnonymous]
         public ViewResult Error() => View();
@@ -79,16 +75,18 @@ namespace EarlyMan.Controllers
 
         #region utility functions
 
-        public IEnumerable<ProductDto> GetProductsAsDtos(int pagesize = 0)
+        public IEnumerable<ProductDto> GetProductsAsDtos(int pageNumber,
+            int pageSize)
         { 
             IEnumerable<ProductDto> productsToPass;
             try
             {
-                var products = _prodRepo.GetProducts();
+                var products = _prodRepo.GetProducts(pageNumber, pageSize);
                 productsToPass = _mapper.Map<IEnumerable<ProductDto>>(products);
             }
             catch (NullReferenceException ex)
             {
+                // log this and catch responsibly.
                 throw ex;
             }
 
@@ -97,11 +95,11 @@ namespace EarlyMan.Controllers
 
         public IEnumerable<PromotionDto> GetPromotionAsDtos()
         {
-            IEnumerable<PromotionDto> promotionsToPass = new List<PromotionDto>();
+            var promotionsToPass = new List<PromotionDto>();
             try
             {
-                var promotions = _promoRepo.GetPromos().Take(1);
-                promotionsToPass = _mapper.Map<IEnumerable<PromotionDto>>(promotions);
+                var promotion = _promoRepo.GetPromos();
+                promotionsToPass = _mapper.Map<IEnumerable<PromotionDto>>(promotion).ToList();
             }
             catch (NullReferenceException ex)
             {

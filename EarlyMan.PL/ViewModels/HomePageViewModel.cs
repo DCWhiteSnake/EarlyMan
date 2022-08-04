@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using EarlyMan.BL.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EarlyMan.PL.ViewModels
 {
@@ -8,7 +9,9 @@ namespace EarlyMan.PL.ViewModels
     { 
         public List<PromotionDto> Promotions{ get; set; }
         public List<ProductDto> Products { get; set; }
-        public int Count { get; set; }
+        
+      
+
       
       
     }

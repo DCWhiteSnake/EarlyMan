@@ -18,18 +18,23 @@ namespace EarlyMan.DL.Services
                 throw new NullReferenceException("The product repository is empty");
             var productToReturn = Products.Where(x =>
             x.ProductId == productId).FirstOrDefault();
-            
+
             if (productToReturn == null)
                 throw new NullReferenceException($"Product with id:{productId}" +
                     "does not exist");
             return productToReturn;
         }
 
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<Product> GetProducts(int pageNumber, int pageSize)
         {
             if (Products == null)
                 throw new NullReferenceException("The product repository is empty");
-            return Products.ToList();
+            if (pageSize <= 0 || pageNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            int skipCount = (pageNumber - 1) * pageSize;
+            return Products.Skip(skipCount).Take(pageSize).ToList();
         }
 
         public bool CheckAvailable(Guid productId)

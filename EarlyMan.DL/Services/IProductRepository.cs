@@ -11,7 +11,7 @@ namespace EarlyMan.DL.Services
 
         Product GetProductById(Guid id);
 
-        IEnumerable<Product> GetProducts();
+        IEnumerable<Product> GetProducts(int pageNumber, int pageSize);
 
         bool CheckAvailable(Guid ProductId);
     }

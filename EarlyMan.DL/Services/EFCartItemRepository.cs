@@ -47,5 +47,11 @@ namespace EarlyMan.DL.Services
 
             return items;
         }
+
+
+        public int Count(Guid cartId)
+        {
+            return _Context.CartItems.Count(x => x.CartId == cartId);
+        }
     }
 }

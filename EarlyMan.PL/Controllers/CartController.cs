@@ -24,7 +24,7 @@ namespace EarlyMan.Controllers
         private readonly ApplicationDbContext _Context;
         public readonly IProductRepository _ProductRepository;
         public readonly ICartRepository _CartRepository;
-        private readonly ICartItemRepository _CartItemRepository;
+        private readonly ICartItemRepository _cartItemRepo;
         public int _pageSize = 10;
         
         public CartController(IMapper mapper,
@@ -39,7 +39,7 @@ namespace EarlyMan.Controllers
             _Context = cxt;
             _ProductRepository = productRepository;
             _CartRepository = cartRepository;
-            _CartItemRepository = cartItemRepository;
+            _cartItemRepo = cartItemRepository;
         }
 
         public IActionResult Index(int pageNumber = 0)
@@ -92,7 +92,9 @@ namespace EarlyMan.Controllers
 
                 cartIndexViewModel.Items.Add(cvItem);
             }
-      
+
+            ViewData["ItemCount"] = _cartItemRepo.Count(userId);
+
             return View("Index" , cartIndexViewModel);
         }
 
@@ -128,7 +130,7 @@ namespace EarlyMan.Controllers
             userCart.Total += itemToCart.SubTotal;
 
 
-           _CartItemRepository.Add(itemToCart);
+           _cartItemRepo.Add(itemToCart);
 
 
            _Context.SaveChanges();
