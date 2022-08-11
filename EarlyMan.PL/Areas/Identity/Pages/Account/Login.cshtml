@@ -2,45 +2,44 @@
 @model LoginModel
 @{
     Layout = "../Shared/_Layout.cshtml";
+    //Layout = null;
 }
 @{
     ViewData["Title"] = "Log in | Earlyman";
 }
-    <header>
-        <div id="loginh3" class="row  limited clear-fix">
-            <h3  class="column small-12">Sign In</h3>
-        </div>
-    </header>
-    <nav></nav>
-    <main class="clear-fix">         
-                <form class="row limited clear-fix" method="post">
-                    <div asp-validation-summary="All" class="column"></div>
-                    <div class="column small-12">
-                        <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="column small-12">
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="column small-12">
-                        <label asp-for="Input.RememberMe">Remember Me?</label>
-                        <input asp-for="Input.RememberMe" type="checkbox" class="" />
-                    </div>
-                    <div class="column small-12">
-                        <button type="submit" class="btn btn-default">Log in</button>
-                    </div>
+
+  
+    <main>
+        <div class="a_form">
+                    <form method="post">
+                        <div asp-validation-summary="All"></div>
+                        <div>
+                            <label asp-for="Input.Email"></label>
+                            <input asp-for="Input.Email"  />
+                            <span asp-validation-for="Input.Email"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password"  />
+                            <span asp-validation-for="Input.Password"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Input.RememberMe">Remember Me?</label>
+                            <input asp-for="Input.RememberMe" type="checkbox" class="" />
+                        </div>
+                        <div >
+                            <button type="submit">Log in</button>
+                        </div>
                    
-                </form>
-             <section  class="row limited clear-fix login_" >
-                <p class="column small-12">
-                    <a asp-page="./ForgotPassword">Forgot your password?</a>
-                </p>
-                <p class="column small-12">
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                </p>
-             </section>
+                    </form>
+                 <section>
+                    <p >
+                        <a asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p >
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>
+                 </section>
+             </div>
             </main>
 

@@ -20,5 +20,6 @@ namespace EarlyMan.DL.Services
         /// </param>
         /// <returns></returns>
         int Count(Guid cartId);
+        void Checkout(Guid userId);
     }
 }

@@ -11,6 +11,7 @@ namespace EarlyMan.PL.ViewModels.CartViewModels
     public class CartViewItem
     {
         public Guid ProductId { get; set; }
+        public Guid CartItemId { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public int PurchaseQuantity { get; set; }

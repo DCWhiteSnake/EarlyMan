@@ -20,6 +20,7 @@
                         <td>Quantity</td>
                         <td>SubTotal</td>
                         <td></td>
+
                     </tr>
                 </thead>
         
@@ -44,9 +45,9 @@
                     <td>@item.SubTotal</td>
                   
                     <td>
-                        <form style="width:100%;display:inline;">
-                           <input hidden value=@item.ProductId/>
-                           <button class="red-button">Remove</button>
+                        <form style="width:100%;display:inline;" method="post" asp-action="RemoveItem">
+                           <input hidden value=@item.CartItemId name="cartItemId"/>        
+                           <button class="red-button"><i class="fas fa-trash"></i></button>
                         </form>
                     </td>
 
@@ -58,7 +59,9 @@
             </table>
 
                 <div class="column small-12">
-                    <button class="checkout-button">Checkout</button>
+                <form method="post" asp-controller="Cart" asp-action="Checkout">
+                    <button class="checkout-button" type="submit">Checkout</button>
+                </form>
                 </div>
             </div>
         

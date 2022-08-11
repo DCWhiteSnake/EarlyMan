@@ -36,16 +36,28 @@ namespace EarlyMan.Controllers
             _signInManager = signInManager;
         }
 
-        [AllowAnonymous]     
-        public ViewResult Index(int pageNumber = 1,int pageSize = 12)
+        [AllowAnonymous]
+        public IActionResult Index(string keyword, int pageNumber)
         {
             ViewBag.Title = "Home | EarlyMan";
-            HomePageViewModel homePageItems = new()
-            {
-                Products = GetProductsAsDtos(pageNumber, pageSize).ToList(),
-                Promotions = GetPromotionAsDtos().ToList(),
+            HomePageViewModel homePageItems = new();
+            
+            homePageItems.PageNumber = pageNumber;
+            var pageSize = homePageItems.PageSize;
+            homePageItems.Keyword = keyword;
+            homePageItems.Products = GetProductsAsDtos(homePageItems.PageNumber, pageSize, keyword).ToList();
 
-            };
+            if (homePageItems.Products.Count == 0)
+            {
+                return Redirect("/error/index");
+            }
+
+
+
+            homePageItems.Promotions = GetPromotionAsDtos().ToList();
+            var itemCount = _prodRepo.Size();
+
+            homePageItems.numberOfPages = (itemCount % pageSize == 0)? itemCount/pageSize: itemCount/pageSize + 1;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -55,17 +67,13 @@ namespace EarlyMan.Controllers
                 ViewData["ItemCount"] = _cartItemRepo.Count(userId);
             }
 
-            else
-            {
-                homePageItems = new()
-                {
-                    Products = GetProductsAsDtos(pageNumber, pageSize).ToList(),
-                    Promotions = GetPromotionAsDtos().ToList()
-                };
-            }
+
             
             return View(homePageItems);
         }
+
+        [AllowAnonymous]
+        public ViewResult NotFound() => View();
 
         [AllowAnonymous]
         public ViewResult Error() => View();
@@ -73,15 +81,19 @@ namespace EarlyMan.Controllers
         [AllowAnonymous]
         public ViewResult Privacy() => View();
 
+
+
+
         #region utility functions
 
         public IEnumerable<ProductDto> GetProductsAsDtos(int pageNumber,
-            int pageSize)
+            int pageSize, string filter = "")
         { 
+           
             IEnumerable<ProductDto> productsToPass;
             try
             {
-                var products = _prodRepo.GetProducts(pageNumber, pageSize);
+                var products = _prodRepo.GetProducts(pageNumber, pageSize, filter);
                 productsToPass = _mapper.Map<IEnumerable<ProductDto>>(products);
             }
             catch (NullReferenceException ex)
@@ -119,6 +131,8 @@ namespace EarlyMan.Controllers
             return 5;
         }
 
+
+        
         #endregion utility functions
     }
 }

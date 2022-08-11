@@ -82,6 +82,7 @@ namespace EarlyMan.Controllers
                     ProductName = product.Name,
                     ProductDescription = product.Description,
                     ProductId = cartItem.ProductId,
+                    CartItemId = cartItem.CartItemId,
                     PurchasePrice = cartItem.PurchasePrice,
                     PurchaseQuantity = cartItem.PurchaseQuantity,
                     SubTotal = cartItem.SubTotal,
@@ -154,6 +155,27 @@ namespace EarlyMan.Controllers
 
             // _cartRepository.AddItemToCart(cartId, cartItemToAdd);
 
+        }
+
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Checkout()
+        {
+            var userId = new Guid(HttpContext.User.Claims.FirstOrDefault
+               (c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+            _cartItemRepo.Checkout(userId);
+
+            return RedirectToAction("Index");  
+        }
+
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveItem (Guid cartItemId)
+        {
+            _cartItemRepo.Remove(cartItemId);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -15,7 +15,7 @@
                 <a type="submit" id="logoutBtn"  asp-area="Identity"  asp-page="/Account/Logout">Logout</a>
             </li>
             <li>
-           <a asp-controller="Cart" asp-action="Index"> <i class="fa-solid fa-basket-shopping"></i>@ViewData["ItemCount"]</a>
+           <a asp-controller="Cart" asp-action="Index" id="shoppingcart"> <i class="fa-solid fa-basket-shopping"></i>@ViewData["ItemCount"]</a>
       
             @*<span>@ViewData["Count"]</span>*@
             </li>

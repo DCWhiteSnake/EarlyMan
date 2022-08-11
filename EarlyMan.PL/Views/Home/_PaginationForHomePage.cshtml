@@ -1,0 +1,10 @@
+﻿@model HomePageViewModel
+
+<div class="row-r limited clear-fix pagination-container">
+    @{
+        for (int x = Model.numberOfPages; x>0; x--)
+        {
+            <span class="column-r"><a class="pagination-btn" asp-route-pageNumber=@x>@x</a></span>
+        }
+}
+</div>

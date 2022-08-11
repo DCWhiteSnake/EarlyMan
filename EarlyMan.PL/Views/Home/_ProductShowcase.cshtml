@@ -1,21 +1,21 @@
 ﻿@model HomePageViewModel
 <div class="row limited clear-fix">
     <section class="column small-12">
-     <h2>Items</h2>
+     <h2 class="text-blue">Items</h2>
      </section>
      </div>
      <div class="row limited clear-fix">
     @foreach (var product in Model.Products)
     {
         
-        <section class="column small-12 medium-6 large-3">    
+        <section class="column small-12 medium-6 large-3 card">    
            <!--Display the products plus description-->     
            <img class="product_img" alt="product image" 
                 src=@string.Concat("assets/Products/",
                 product.ImageLocation)>
 
                 <h3>@product.Name</h3>
-                <p>@product.Description </p>      
+  
                 
                 @{
                         var prices = @product.CurrentPrice.ToString("N2").Split('.');
@@ -26,7 +26,7 @@
                 <span class="smallmoney">@decimals</span>
                                 <form method="post">
                 <input type="hidden" value=@product.ProductId name="productId">
-                <button  type="submit" asp-controller="Product" asp-action="Details">Cart it!</button>
+                <button class="cartit_btn" type="submit" asp-controller="Product" asp-action="Details">Cart it!</button>
                 </form>
                 
 

@@ -4,12 +4,33 @@
     nav button {display: none;}
 
     .medium-6{width: 50%;}
+    .medium-block{
+        width: 50vw;
+        height: 50vh;
+    }
+
+
     .product_img {
         height: 250px
     }
     main .medium-6 {
         height: 380px;
     }
-}
+
+
+
+    .a_form {
+
+        width: 70%;
+    }
+
+
+    #shoppingcart{
+        padding-right:0;
+    }
+    #details_image {
+        width: 30vw;
+        margin: 1rem;
+    }
 
 /* end of media for medium screen sizesquery*/

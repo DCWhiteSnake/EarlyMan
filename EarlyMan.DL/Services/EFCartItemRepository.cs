@@ -6,10 +6,14 @@ namespace EarlyMan.DL.Services
     public class EFCartItemRepository : ICartItemRepository
     {
         public readonly ApplicationDbContext _Context;
+        
+
 
         public EFCartItemRepository(ApplicationDbContext context)
         {
             _Context = context;
+        
+          
         }
         public void Add(CartItem item)
         {
@@ -21,22 +25,25 @@ namespace EarlyMan.DL.Services
             
             _Context.CartItems.Add(item); 
         }
-        public void Remove(Guid cartItemId, Guid cartId, Guid productId)
+        
+        public void Remove(Guid cartItemId)
         {
-            CartItem? cartItem = Find(cartItemId, cartId, productId);
+            CartItem? cartItem =_Context.CartItems.Find(cartItemId);
 
-            if(cartItem == null) { throw new ArgumentException("That item does not exist"); }
+            if(cartItem == null) 
+                throw new ArgumentException("That item does not exist");
 
             _Context.CartItems.Remove(cartItem);
+            _Context.SaveChanges();
         }
 
-        public CartItem Find(Guid cartItemId, Guid cartId, Guid productId)
+        public CartItem Find(Guid cartItemId)
         {
-            CartItem? cartItem = _Context.CartItems.Select(x => x).
-                Where(x => x.CartItemId == cartItemId
-                && x.CartId == cartId
-                && x.ProductId == productId).FirstOrDefault();
-
+            CartItem? cartItem = _Context.CartItems.Find(cartItemId);
+            
+            if (cartItem== null)
+                throw new ArgumentException("Cart item with that id does not exist");
+            
             return cartItem;
         }
         public void Update(Guid cartItemId, CartItem updateItem) { }
@@ -52,6 +59,13 @@ namespace EarlyMan.DL.Services
         public int Count(Guid cartId)
         {
             return _Context.CartItems.Count(x => x.CartId == cartId);
+        }
+
+        public void Checkout(Guid userId)
+        {
+            var itemsToRemove = _Context.CartItems.Where(x => x.CartId == userId);
+           _Context.CartItems.RemoveRange(itemsToRemove);
+            _Context.SaveChanges();
         }
     }
 }

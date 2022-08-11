@@ -56,6 +56,11 @@ namespace EarlyMan.PL
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute("product", "{controller=Product}/{action=Details}/{productId}");
+                endpoints.MapControllerRoute("Catchall", "{*any}", new
+                {
+                    controller = "Error",
+                    action = "Index"
+                });
                 endpoints.MapRazorPages();
             });
 

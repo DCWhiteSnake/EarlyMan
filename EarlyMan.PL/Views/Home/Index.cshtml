@@ -1,4 +1,15 @@
 ﻿@model HomePageViewModel
+
+<section class="row limited clear-fix">
+    <form class="column small-12" method="get" asp-action="Index" asp-controller="Home">
+        <div row limited clear-fix>
+            <button id="searchbutton" type="submit"><i class="fas fa-search"></i></button>
+            <input placeholder="input search term" id="searchbar" type="search" asp-for=Keyword value=@Model.Keyword/>
+            
+        </div>
+    </form>
+</section>
+
 <section class="row limited clear-fix">
    <div class="column small-12">@{
 
@@ -14,4 +25,9 @@
 </section>
 <div>
     @await Html.PartialAsync("_ProductShowcase", @Model)
+</div>
+
+
+<div>
+    @await Html.PartialAsync("_PaginationForHomePage", @Model)
 </div>
