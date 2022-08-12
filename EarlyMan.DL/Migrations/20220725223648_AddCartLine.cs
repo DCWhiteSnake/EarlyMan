@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EarlyMan.PL.Migrations
+namespace EarlyMan.DL.Migrations
 {
     public partial class AddCartLine : Migration
     {

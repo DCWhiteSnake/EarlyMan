@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EarlyMan.PL.Migrations.AppIdentityDb
+namespace EarlyMan.DL.Migrations.AppIdentityDb
 {
     public partial class Initial : Migration
     {

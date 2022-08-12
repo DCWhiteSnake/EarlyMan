@@ -21,13 +21,13 @@ namespace EarlyMan.PL
 
 
 
-            services.AddDbContext<AppIdentityDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("EarlyManIdentity"),
-            b => b.MigrationsAssembly("EarlyMan.PL")));
+            services.AddDbContextPool<AppIdentityDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("EarlyManIdentity")));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("EarlyManDatabase"),
-            b => b.MigrationsAssembly("EarlyMan.PL")));
+
+            services.AddDbContextPool<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("EarlyManDatabase")));
+      
 
             services.AddDefaultIdentity<ApplicationUser>()
                            .AddEntityFrameworkStores<AppIdentityDbContext>();
@@ -56,6 +56,7 @@ namespace EarlyMan.PL
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute("product", "{controller=Product}/{action=Details}/{productId}");
+                endpoints.MapControllerRoute("admin_default", "Management/{controller=Admin}/{action=Index}");
                 endpoints.MapControllerRoute("Catchall", "{*any}", new
                 {
                     controller = "Error",
