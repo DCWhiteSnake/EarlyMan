@@ -3,8 +3,7 @@
   <PropertyGroup>
 	  <TargetFramework>net6.0</TargetFramework>
 	  <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-	  <StartupObject>EarlyMan.PL.Program</StartupObject>
-
+    <ImplicitUsings>enable</ImplicitUsings>
 	  <!--<UserSecretsId>aspnet-{Project Name}-{GUID}</UserSecretsId>-->
 	
   </PropertyGroup>
@@ -18,6 +17,7 @@
     <WarningLevel>5</WarningLevel>
     <NoWarn>1701;1702;8618</NoWarn>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
