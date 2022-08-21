@@ -312,3 +312,42 @@ footer img{
     padding-bottom: 2rem;
 }
 
+
+/*Login Styles*/
+
+.au_form{
+   
+}
+.au_form form, .au_form section {
+    margin: 2vw;
+
+}
+#Input_RememberMe,#rememberLabel{
+    display:inline-block;
+    width:auto;
+}
+
+#Input_RememberMe{
+    display:inline-block;
+    width: 2rem;
+    height: 2rem;
+}
+
+
+
+.au_form form input,.au_form form label, .au_form button,
+.au_form section p{
+    display:block;
+    margin-left: 1em;
+    font-size: 2.2rem;
+    width:80%;
+    
+}
+
+.au_form form input{
+  margin-bottom: 2rem;
+}
+.au_form form label {
+    
+}
+

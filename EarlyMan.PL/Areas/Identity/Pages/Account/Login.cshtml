@@ -10,7 +10,7 @@
 
   
     <main>
-        <div class="a_form">
+        <div class="row limited clear-fix au_form">
                     <form method="post">
                         <div asp-validation-summary="All"></div>
                         <div>
@@ -24,8 +24,9 @@
                             <span asp-validation-for="Input.Password"></span>
                         </div>
                         <div>
-                            <label asp-for="Input.RememberMe">Remember Me?</label>
+                            <label id="rememberLabel" asp-for="Input.RememberMe">Remember Me?</label>
                             <input asp-for="Input.RememberMe" type="checkbox" class="" />
+
                         </div>
                         <div >
                             <button type="submit">Log in</button>

@@ -1,0 +1,5 @@
+﻿
+dotnet ef migrations add MigrationName --context TheSpecificContextClassName -s RelativePathToStartUpProject => Use this to add Migrations to a particular dbcontext,
+it's especially useful when your dbcontext class is in seperate project
+
+dotnet ef database update --context TheSpecificContextClassName
