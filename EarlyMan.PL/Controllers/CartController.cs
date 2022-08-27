@@ -1,29 +1,24 @@
 ﻿using AutoMapper;
-using EarlyMan.BL.Models;
 using EarlyMan.DL.Data;
 using EarlyMan.DL.Entities;
 using EarlyMan.DL.Entities.Identity;
 using EarlyMan.DL.Services;
 using EarlyMan.PL.ViewModels.CartViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 
 namespace EarlyMan.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Users")]
     public class CartController : Controller
     {
         private readonly IMapper _Mapper;
         private readonly UserManager<ApplicationUser> _UserManager;
         private readonly ApplicationDbContext _Context;
-        public readonly IProductRepository _ProductRepository;
-        public readonly ICartRepository _CartRepository;
+        private readonly IProductRepository _ProductRepository;
+        private readonly ICartRepository _CartRepository;
         private readonly ICartItemRepository _cartItemRepo;
         public int _pageSize = 10;
         
@@ -42,6 +37,7 @@ namespace EarlyMan.Controllers
             _cartItemRepo = cartItemRepository;
         }
 
+       
         public IActionResult Index(int pageNumber = 0)
         {
 
