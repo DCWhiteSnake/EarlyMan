@@ -13,15 +13,18 @@ using EarlyMan.DL.Entities.Identity;
 
 namespace EarlyMan.PL.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -38,7 +41,6 @@ namespace EarlyMan.PL.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
             public string Email { get; set; }
 
             [Required]
@@ -76,11 +78,41 @@ namespace EarlyMan.PL.Areas.Identity.Pages.Account
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password,
                     Input.RememberMe, lockoutOnFailure: false);
-                
+
+
+
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return RedirectToAction("Index", "Home");
+                }
+                if (!result.Succeeded)
+                {
+                    if (Input.Email == "")
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            "Please enter a valid email address/username");
+
+                        return Page();
+                    }
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    if (user != null)
+                    {
+                       var signInResult =  await _signInManager.PasswordSignInAsync(user.UserName, Input.Password,
+                            Input.RememberMe, lockoutOnFailure: false);
+
+                        if (signInResult.Succeeded)
+                            return RedirectToAction("Index", "Home");
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty,
+                           "Wrong Username/Password");
+                        }
+                    }
+
+               
+
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -93,11 +125,11 @@ namespace EarlyMan.PL.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    ModelState.AddModelError(string.Empty,
+                        "Invalid login attempt");
+
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

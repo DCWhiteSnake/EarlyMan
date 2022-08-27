@@ -2,20 +2,21 @@
 @model LoginModel
 @{
     Layout = "../Shared/_Layout.cshtml";
-    //Layout = null;
 }
 @{
     ViewData["Title"] = "Log in | Earlyman";
 }
 
-  
+    <div class="row limited clear-fix">
+        <h1 class="column small-12">Log In</h1>
+    </div>
+
     <main>
         <div class="row limited clear-fix au_form">
                     <form method="post">
-                        <div asp-validation-summary="All"></div>
                         <div>
-                            <label asp-for="Input.Email"></label>
-                            <input asp-for="Input.Email"  />
+                            <label asp-for="Input.Email">Email/Username</label>
+                            <input asp-for="Input.Email"/>
                             <span asp-validation-for="Input.Email"></span>
                         </div>
                         <div>
