@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EarlyManTests", "EarlyManTests", "{4EB05A80-7E82-4AD9-9F9A-3286F2D7D837}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EarlyManBLTest", "Tests\EarlyManTest\EarlyManBLTest.csproj", "{0F13CA1E-0E9F-4C59-B2A9-3EE28A6ADB94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "Tests\EarlyManTest\UnitTests.csproj", "{0F13CA1E-0E9F-4C59-B2A9-3EE28A6ADB94}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EarlyMan.BL", "EarlyMan.BL\EarlyMan.BL.csproj", "{25ED5E4F-F9A4-4963-A552-DC13E729C04E}"
 EndProject

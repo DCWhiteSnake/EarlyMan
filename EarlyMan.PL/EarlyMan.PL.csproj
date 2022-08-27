@@ -46,7 +46,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Views\Admin\ManageUser\" />
     <Folder Include="Views\Admin\ManageUserOrder\" />
     <Folder Include="Views\Admin\ManageProduct\" />
   </ItemGroup>
