@@ -24,7 +24,8 @@ namespace EarlyMan.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public HomeController(IProductRepository prodRepo, IPromotionRepository promoRepo, ICartRepository cartRepo, ICartItemRepository cartItemRepository, IMapper mapper,
+        public HomeController(IProductRepository prodRepo, IPromotionRepository promoRepo, 
+            ICartRepository cartRepo, ICartItemRepository cartItemRepository, IMapper mapper,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _promoRepo = promoRepo;
@@ -40,40 +41,23 @@ namespace EarlyMan.Controllers
         public IActionResult Index(string keyword, int pageNumber)
         {
             ViewBag.Title = "Home | EarlyMan";
+
             HomePageViewModel homePageItems = new();
-            
-            homePageItems.PageNumber = pageNumber;
-            var pageSize = homePageItems.PageSize;
-            homePageItems.Keyword = keyword;
-            homePageItems.Products = GetProductsAsDtos(homePageItems.PageNumber, pageSize, keyword).ToList();
+
+            homePageItems.Products = GetProductsAsDtos(pageNumber, homePageItems._DefPageSize, keyword) as List<ProductDto>;
 
             if (homePageItems.Products.Count == 0)
             {
                 return Redirect("/error/index");
             }
 
+            var _ = InstantiateNumberOfPagesProperty(homePageItems);
+            homePageItems.Promotions = GetPromotionAsDtos() as List<PromotionDto>;
 
+            AssignUserCartSizeToViewData_ItemCount_Key();
 
-            homePageItems.Promotions = GetPromotionAsDtos().ToList();
-            var itemCount = _prodRepo.Size();
-
-            homePageItems.numberOfPages = (itemCount % pageSize == 0)? itemCount/pageSize: itemCount/pageSize + 1;
-
-            if (_signInManager.IsSignedIn(User))
-            {
-                var userId = new Guid(HttpContext.User.Claims.FirstOrDefault
-                (c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-                ViewData["ItemCount"] = _cartItemRepo.Count(userId);
-            }
-
-
-            
             return View(homePageItems);
         }
-
-        [AllowAnonymous]
-        public ViewResult NotFound() => View();
 
         [AllowAnonymous]
         public ViewResult Error() => View();
@@ -81,10 +65,35 @@ namespace EarlyMan.Controllers
         [AllowAnonymous]
         public ViewResult Privacy() => View();
 
-
-
-
         #region utility functions
+        public void AssignUserCartSizeToViewData_ItemCount_Key()
+        {
+            // If the user is signed in then pass their cart size to the viewdata property.
+            if (_signInManager.IsSignedIn(User))
+            {
+                var userId = new Guid(HttpContext.User.Claims.FirstOrDefault
+                (c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+                ViewData["ItemCount"] = _cartItemRepo.Count(userId);
+            }
+        }
+
+        /// <summary>
+        /// Asigns the number of pages(which depends on the number of products) to the HomepageViewModel.numberOfPages variable;
+        /// </summary>
+        /// <param name="homePageItems"></param>
+        /// <returns>The number of pages</returns>
+        public int InstantiateNumberOfPagesProperty(HomePageViewModel homePageItems)
+        {
+            var itemCount = _prodRepo.Size();
+            //homePageItems.numberOfPages = (itemCount % homePageItems.PageSize == 0)? itemCount/homePageItems.PageSize :
+            //    itemCount/homePageItems.PageSize + 1;
+            homePageItems.numberOfPages = ((itemCount % homePageItems._DefPageSize) == 0) ? itemCount / homePageItems._DefPageSize :
+             itemCount / homePageItems._DefPageSize + 1;
+
+            return homePageItems.numberOfPages;
+        }
+
 
         public IEnumerable<ProductDto> GetProductsAsDtos(int pageNumber,
             int pageSize, string filter = "")
@@ -119,20 +128,7 @@ namespace EarlyMan.Controllers
             }
 
             return promotionsToPass;
-        }
-
-        private int GetCartSize()
-        {
-            //int result = 0;
-            //if (_signInManager.IsSignedIn(User))
-            //{
-            //    result = _cartRepo.GetById().CartItems.Count;
-            //}
-            return 5;
-        }
-
-
-        
+        }    
         #endregion utility functions
     }
 }

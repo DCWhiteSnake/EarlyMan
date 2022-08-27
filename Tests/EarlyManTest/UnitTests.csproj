@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EarlyMan.BL\EarlyMan.BL.csproj" />
+    <ProjectReference Include="..\..\EarlyMan.PL\EarlyMan.PL.csproj" />
   </ItemGroup>
 
 </Project>

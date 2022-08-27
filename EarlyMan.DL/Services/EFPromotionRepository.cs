@@ -10,7 +10,7 @@ namespace EarlyMan.DL.Services
         public EFPromotionRepository(ApplicationDbContext ctx)
             => context = ctx;
 
-        public IQueryable<Promotion>? Promos { get => context.Promos; }
+        public IQueryable<Promotion> Promos { get => context.Promos; }
 
         public IEnumerable<Promotion> GetPromos()
         {

@@ -19,4 +19,24 @@ namespace EarlyMan.DL.Services
         bool AddItemToCart(CartItem cartItem);
         bool CreateCart(Guid cartId);
     }
+
+    public class InMemoryCartRepository : ICartRepository
+    {
+        public IQueryable<Cart> Carts => throw new NotImplementedException();
+
+        public bool AddItemToCart(CartItem cartItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CreateCart(Guid cartId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Cart GetById(Guid cartId)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

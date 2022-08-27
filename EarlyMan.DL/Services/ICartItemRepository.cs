@@ -22,4 +22,22 @@ namespace EarlyMan.DL.Services
         int Count(Guid cartId);
         void Checkout(Guid userId);
     }
+
+    public class InMemoryCartItemRepository : ICartItemRepository
+    {
+        public void Checkout(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count(Guid cartId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<CartItem> GetItems(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
