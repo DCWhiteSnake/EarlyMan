@@ -1,0 +1,25 @@
+﻿@model IQueryable<EarlyMan.DL.Entities.Identity.ApplicationUser>
+@{
+    Layout = null;
+}
+<div><h4>User Accounts</h4></div>
+<table>
+        <tr><th>ID</th><th>Name</th><th>Email</th></tr>
+        @if (Model.Count() == 0) 
+        {
+            <tr><td colspan="3"></td></tr>
+        } 
+        else 
+        {
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Email</td>
+                </tr>
+            }
+       }
+</table>
+
+<a  asp-action="Create">Create</a>

@@ -1,0 +1,44 @@
+﻿@page
+@model LoginModel
+@{
+    Layout = "../../Shared/_Layout.cshtml";
+}
+@{
+    ViewData["Title"] = "Admin Log in | Earlyman";
+}
+
+    <div class="row limited clear-fix">
+        <h1 class="column small-12">Log In</h1>
+    </div>
+
+    <main>
+        <div class="row limited clear-fix au_form">
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+                    <form method="post">
+                        <div>
+                            <label asp-for="Input.Username">Username</label>
+                            <input asp-for="Input.Username"/>
+                            <span asp-validation-for="Input.Username"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password"  />
+                            <span asp-validation-for="Input.Password"></span>
+                        </div>
+                        <div >
+                            <button type="submit">Log in</button>
+                        </div>
+                   
+                    </form>
+                 <section>
+                    <p >
+                        <a asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p >
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>
+                 </section>
+             </div>
+            </main>
+

@@ -1,0 +1,27 @@
+﻿
+<main>
+    <div class="row limited clear-fix">
+        @if(ViewBag.pwd_ChangeSuccess == true)
+        {
+            <p class="column disappear">Password change success</p>
+        }
+
+
+        @if(ViewBag.account_ChangeSuccess== true)
+        {
+            <p class="column disappear">Account update success</p>
+        }
+
+
+        <div class="column small-12">
+            <h1>Manage Account</h1>
+        </div>
+        <div class="column small-12">
+            <a asp-area="Identity" asp-page="/Account/UpdateDetails">Update Details</a>
+        </div>
+
+        <div class= "column small-12">
+            <a asp-area="Identity" asp-page="/Account/ChangePassword" >Change Password</a>
+        </div>
+    </div>
+</main>

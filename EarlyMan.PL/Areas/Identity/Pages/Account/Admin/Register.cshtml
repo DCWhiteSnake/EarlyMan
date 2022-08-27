@@ -1,0 +1,62 @@
+﻿@page
+@model RegisterModel
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Create Account | Earlyman";
+}
+
+    <div class="row limited clear-fix">
+        <h1>Create a new account</h1>
+    </div>
+   
+    <main>
+        <div class="row limited clear-fix au-form">
+            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div>
+                    <label asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName"/>
+                    <span asp-validation-for="Input.UserName"></span>
+                </div>
+                 <div>
+                    <label asp-for="Input.FirstName"></label>
+                    <input asp-for="Input.FirstName"/>
+                    <span asp-validation-for="Input.FirstName"></span>
+                </div>                 
+                
+                <div>
+                    <label asp-for="Input.LastName"></label>
+                    <input asp-for="Input.LastName"/>
+                    <span asp-validation-for="Input.LastName"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email"/>
+                    <span asp-validation-for="Input.Email"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password"/>
+                    <span asp-validation-for="Input.Password"></span>
+                </div>
+                <div>
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword"/>
+                    <span asp-validation-for="Input.ConfirmPassword"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.PhoneNo"></label>
+                    <input asp-for="Input.PhoneNo"/>
+                    <span asp-validation-for="Input.PhoneNo"></span>
+                </div>
+                <div>
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+   
+    </main>
+

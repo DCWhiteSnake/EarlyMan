@@ -9,7 +9,7 @@
     <ul class="authbar">
             <li><a class="active" asp-controller="Home" asp-action="Index">Home</a></li>
             <li>
-                <span>Hello <em>@UserManager.GetUserName(User)!</em></span>
+                <a asp-controller="UserAccount" asp-action="Index">Hello <em>@UserManager.GetUserName(User)!</em></a>
             </li>
             <li>
                 <a type="submit" id="logoutBtn"  asp-area="Identity"  asp-page="/Account/Logout">Logout</a>
