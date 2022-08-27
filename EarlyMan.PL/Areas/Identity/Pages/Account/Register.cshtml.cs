@@ -1,39 +1,32 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using EarlyMan.DL.Entities.Identity;
+using EarlyMan.DL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using EarlyMan.DL.Entities.Identity;
-using EarlyMan.DL.Services;
-using System;
 
 namespace EarlyMan.PL.Areas.Identity.Pages.Account
 {
-
-    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
         private readonly ICartRepository _cartrepo;
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ICartRepository cartRepo,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger)
+            //,IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _cartrepo = cartRepo;
             _logger = logger;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
         }
 
         [BindProperty]
@@ -43,6 +36,22 @@ namespace EarlyMan.PL.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+
+            [Required]
+            [MaxLength(12)]
+            [Display(Name = "UserName")]
+            public string UserName { get; set; }
+
+            [Required]
+            [MaxLength(12)]
+            [Display(Name = "FirstName")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [MaxLength(12)]
+            [Display(Name = "LastName")]
+            public string LastName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -63,47 +72,47 @@ namespace EarlyMan.PL.Areas.Identity.Pages.Account
             public string PhoneNo { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public void OnGet(string returnUrl )
         {
             ReturnUrl = returnUrl;
         }
 
         // Todo: Email must be unique
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl)
         {
-            returnUrl ??= Url.Content("/");
             
             if (ModelState.IsValid)
             {
                 // Todo: Give user a random name when user first creates account
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email,
-                    Id = Guid.NewGuid().ToString() };
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = Input.UserName,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    Email = Input.Email,
+                    PhoneNumber = Input.PhoneNo
+                };
+
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
                     _cartrepo.CreateCart(Guid.Parse(user.Id));
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { Id = user.Id, code },
-                    //    protocol: Request.Scheme);
 
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
                 }
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
     }
