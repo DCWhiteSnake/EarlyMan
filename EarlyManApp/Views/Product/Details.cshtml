@@ -1,0 +1,64 @@
+﻿@model EarlyMan.Models.ProductDto
+
+<html>
+
+    <body>
+        <div class="row limited clear-fix">
+            <div class="float-left">
+             <img alt="product image" id="details_image"
+                src="/assets/Products/@Model.ImageLocation">
+            </div>
+
+            <div class="mr-2 pb-2">
+                <div class="float-right-l">
+                    <h2>
+                        @Model.Name.ToUpperInvariant()
+                    </h2>
+
+          
+                        <div>
+                            @Model.Description
+                        </div>
+            
+                        <div>
+                            @Model.CurrentPrice
+                        </div>
+    
+
+
+                        @{
+                            var increase_quantity_btn_id = string.Concat(@Model.ProductId, "_increasequantity");
+                            var decrease_quantity_btn_id = string.Concat(@Model.ProductId, "_decreasequantity");
+            
+                
+                
+                            <!-- manipulate the quantity to purchase here.-->     
+                            <form asp-action="AddToCart" asp-controller="Cart" method="post">                  
+                                <input name ="productId" type="hidden" value="@Model.ProductId"/>
+                          
+                                <button id=@increase_quantity_btn_id type="button" class="increase_quantity_btn">
+                               <i class="fa-solid fa-plus"></i></button>                  
+                          
+                                <input type="number" 
+                                class="purchase_quantity" 
+                                name="purchaseQuantity" 
+                                id=@Model.ProductId 
+                                minlength="2" 
+                                maxlength="2" 
+                                size="2" value="1" min="1" max="100" />
+                
+                                <button id=@decrease_quantity_btn_id type="button" class="decrease_quantity_btn">
+                                <i class="fa-solid fa-minus"></i></button>
+                        
+                                <input type = "hidden" value=@Model.CurrentPrice name="purchasePrice">
+                                <button type="submit" class="add_to_cart_btn">Add to Cart</button>
+                            </form>
+
+                  
+                        }  
+                        </div>
+                </div>
+            </div>
+        <script src="~/js/manipulate-purchase-quantity.js"></script>
+    </body>
+</html>

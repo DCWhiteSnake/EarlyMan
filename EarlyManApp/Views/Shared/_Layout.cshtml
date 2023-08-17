@@ -1,0 +1,112 @@
+﻿<!doctype html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Affordable 3d printing" />
+    <meta name="keywords" content="Artwork sale, EarlyMan, 3D printing, materials, PETA" />
+    <meta name="author" content="David Okeke Chihurumnanya" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+
+    <!-- Favicon -->
+    <link href="favicon.ico" rel="icon" />
+   
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,700;1,300&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+
+    <script src="https://kit.fontawesome.com/4405757738.js" crossorigin="anonymous"></script>    
+
+    <!-- client-side libraries-->
+    <link rel="stylesheet" href="/lib/normalize/normalize.min.css"/>
+    
+    <!-- Style sheets-->
+    <link rel="stylesheet" href="/css/small.css" />
+    <link rel="stylesheet" href="/css/medium.css" />
+    <link rel="stylesheet" href="/css/large.css" />
+    
+    <!-- Page title-->
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <!-- This website uses a 12-grid system -->
+    
+    <!-- .clear-fix -->
+    <!-- Summary: Fixes height collapse of containers when decendants float left/right-->
+    <header class="clear-fix">
+      <div class="row limited">
+        <section class="column small-12">
+            <img src="/images/EarlyManLogo.svg" alt="Earlyman Logo">
+            <h1>Earlyman</h1>
+            <h2>Get You Local Art here...</h2>
+        </section>
+    </div> <!-- end row -->
+    </header>
+
+    
+    <nav class="clear-fix">      
+        <div class="row limited">         
+             <button id="hamburgerBtn">&#9776;</button>              
+             @(await Html.PartialAsync("_LoginPartial"))  
+                 
+        </div>
+    </nav>
+
+    <main class="clear-fix">
+       @RenderBody()
+    </main>
+
+    <partial name="_CookieConsentPartial" />
+    
+    <footer class="clear-fix">
+        <div class="row limited">
+             @*
+            <section class="column small-12 medium-6 large-3 ">
+
+                <h2>Get to Know Us</h2>
+                <ul>
+                    <li>Make Money with Us</li>
+                    <li>Let Us Help You</li>
+                </ul>
+            </section>
+
+            <section class="column small-12 medium-6 large-3">
+                <h2>Careers</h2>
+                <ul>
+                    <li>About Earlyman</li>
+                    <li>Investor Relations</li>
+                </ul>
+            </section>
+            <section class="column small-12 medium-6 large-3">
+                <h2>Sell on Earlyman</h2>
+                <ul>
+                    <li>Become an Affiliate</li>
+                    <li>Advertise Your Products</li>
+                </ul>
+            </section>*@
+            <section class="container column small-12">
+                <h2 class="text-white">Personal</h2>
+                <ul>
+                    <li><a asp-controller="UserAccount" asp-action="Index">Your Account</a></li>
+                    <li><a asp-controller="Cart" asp-action"Index">Your Orders</a></li>
+                    <li><a id="footer-help" href="mailto:davidokeke.c@gmail.com">Help</a></li>
+                </ul>
+            </section>
+
+            <section class="column small-12 medium-6 large-3">
+                <h2></h2>
+                <img src="images/EarlyManLogo.svg" alt="logo" id="footer-img" />
+                <p>&copy; 2022 &bull; all rights reserved.</p>
+            </section>
+
+        </div>
+    </footer>
+
+    <script src="~/js/toggle-menubar-for-small-screens.js"></script>
+    
+
+</body>
+</html>

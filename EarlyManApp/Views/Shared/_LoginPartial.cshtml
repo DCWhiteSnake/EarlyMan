@@ -1,0 +1,29 @@
+﻿
+@using EarlyMan.Entities.Identity
+@using Microsoft.AspNetCore.Identity
+
+<div id="primaryNav">
+@if (User.Identities.FirstOrDefault().Name != null)
+{ 
+    <ul class="authbar">
+            <li><a class="active" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li>
+                <a asp-controller="UserAccount" asp-action="Index"><em>Settings</em></a>
+            </li>
+            <li>
+                <a type="submit" id="logoutBtn"  asp-area="Identity"  asp-page="/Account/Logout">Logout</a>
+            </li>
+            <li>
+           <a asp-controller="Cart" asp-action="Index" id="shoppingcart"> <i class="fa-solid fa-basket-shopping"></i>@ViewData["ItemCount"]</a>
+            </li>
+    </ul>  
+}
+else
+{
+    <ul class="authbar">
+        <li><a  class="active" asp-page="/Home/Index">Home</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Register">Create Account</a></li>
+        <li><a asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+    </ul>
+}
+ </div>

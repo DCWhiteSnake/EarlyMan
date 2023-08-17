@@ -1,0 +1,32 @@
+﻿@model HomePageViewModel
+
+<section class="row limited clear-fix">
+    <form class="column small-12" method="get" asp-action="Index" asp-controller="Home">
+        <div row limited clear-fix>
+            <button id="searchbutton" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <input placeholder="input search term" id="searchbar" type="search" asp-for=Keyword value=@Model.Keyword/>
+        </div>
+    </form>
+</section>
+
+<section class="row limited clear-fix">
+   <div class="column small-12">@{
+
+          var promotion = (@Model.Promotions.FirstOrDefault() == null)?
+          "~/assets/promotions/availability.png":@Model.Promotions[0].ImageLocation;
+          <img src=@Url.Content(promotion) 
+          alt="Promotion Image: Shows a photo of an aerial view 
+          of a location in lagos with text 'We sheep artwork to all parts of lagos'"
+          focusable="false"/>
+          <!--width="1140" height="561"/>-->
+      }
+   </div>
+</section>
+<div>
+    @await Html.PartialAsync("_ProductShowcase", @Model)
+</div>
+
+
+<div>
+    @await Html.PartialAsync("_PaginationForHomePage", @Model)
+</div>
