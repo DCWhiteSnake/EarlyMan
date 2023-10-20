@@ -11,15 +11,10 @@ builder.Services.AddDbContextPool<AppIdentityDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
      options => options.EnableRetryOnFailure())
     );
-
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
      options => options.EnableRetryOnFailure())
     );
-
-
-
-
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
 opts =>
 {
@@ -28,7 +23,6 @@ opts =>
 })
 .AddEntityFrameworkStores<AppIdentityDbContext>()
 .AddDefaultTokenProviders();
-
 
 // todo: Route links to admin page to admin login page.
 //builder.Services.ConfigureApplicationCookie(opts => {

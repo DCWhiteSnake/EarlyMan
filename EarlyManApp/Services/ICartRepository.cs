@@ -17,7 +17,7 @@ namespace EarlyMan.Services
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         bool AddItemToCart(CartItem cartItem);
-        public Task<Cart> CreateCart(Guid cartId);
+        public Cart CreateCart(Guid cartId);
     }
 
     public class InMemoryCartRepository : ICartRepository
@@ -29,7 +29,7 @@ namespace EarlyMan.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Cart> CreateCart(Guid cartId)
+        public Cart CreateCart(Guid cartId)
         {
             throw new NotImplementedException();
         }

@@ -5,36 +5,28 @@ namespace EarlyMan.Services
     public class EFCartRepository : ICartRepository
     {
         private ApplicationDbContext _Context { get; set; }
-        private ICartItemRepository _CaetItemRepository { get; set; }
+        private ICartItemRepository _CartItemRepository { get; set; }
         public EFCartRepository(ApplicationDbContext ctx, ICartItemRepository cartItemRepo)
         {
             _Context = ctx;
-            _CaetItemRepository = cartItemRepo;
+            _CartItemRepository = cartItemRepo;
         }
-
-
         public IQueryable<Cart> Carts { get => _Context.Carts; }
-
-
         public bool AddItemToCart(CartItem item)
         {
             // Find user's cart not product Id.
-            _CaetItemRepository.Add(item);
+            _CartItemRepository.Add(item);
             return true;
-
-
         }
-
         public Cart GetById(Guid cartId)
         {
-            Cart cart;
-            cart = Carts.Where(cart => cart.CartId == cartId).FirstOrDefault();
+            var cart = Carts.Where(cart => cart.CartId == cartId).FirstOrDefault();
+            cart ??= CreateCart(cartId);
             return cart;
         }
-
-        public async Task<Cart> CreateCart(Guid userId)
+        public Cart CreateCart(Guid userId)
         {
-            Cart cart = 
+            Cart cart =
                 new()
                 {
                     CartId = userId,
@@ -42,14 +34,10 @@ namespace EarlyMan.Services
                     ModificationDate = DateTimeOffset.UtcNow,
                     Total = 0,
                     CreationDate = DateTimeOffset.UtcNow
-
-                _Context.Carts.Add(cart);
-                _Context.SaveChanges();
-                return cart;
-            
+                };
+            _Context.Carts.Add(cart);
+            _Context.SaveChanges();
+            return cart;
         }
-
-
-
     }
 }

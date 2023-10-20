@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using EarlyMan.Entities.Identity;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EarlyMan.Areas.Identity.Pages.Account
 {
@@ -21,26 +20,19 @@ namespace EarlyMan.Areas.Identity.Pages.Account
             _userManager = userManager;
             _logger = logger;
         }
-
         [BindProperty]
         public InputModel Input { get; set; }
-
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
         public string ReturnUrl { get; set; }
-
         [TempData]
         public string ErrorMessage { get; set; }
-
         public class InputModel
         {
             [Required]
             public string Email { get; set; }
-
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
-
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
@@ -52,62 +44,59 @@ namespace EarlyMan.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
             returnUrl ??= Url.Content("~/");
-
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             ReturnUrl = returnUrl;
         }
-
         public async Task<IActionResult> OnPostAsync()
         {
-
             if (ModelState.IsValid)
             {
                 if (await CheckIfUserInRoleAsync(Input.Email, "Customer"))
                 {
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password,
-                        Input.RememberMe, lockoutOnFailure: false);
-                    if (result.Succeeded)
+                    // Username login
+                    var user = await _userManager.FindByNameAsync(Input.Email);
+                    if (user != null)
                     {
-                        var message = $"User {Input.Email} logged in.";
-                        _logger.LogInformation("{message}", message);
-                        return RedirectToAction("Index", "Home");
+                        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password,
+                            Input.RememberMe, lockoutOnFailure: false);
+                        if (result.Succeeded)
+                        {
+                            var message = $"User {Input.Email} logged in.";
+                            _logger.LogInformation("{message}", message);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Input.Password", "Wrong password");
+                        }
                     }
                     else
                     {
-                        var user = await _userManager.FindByEmailAsync(Input.Email);
+                        user = await _userManager.FindByEmailAsync(Input.Email);
                         if (user != null)
                         {
-                            result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password,
+                            var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password,
                                 Input.RememberMe, lockoutOnFailure: false);
-
                             if (result.Succeeded)
                             {
                                 var message = $"User {Input.Email} logged in.";
                                 _logger.LogInformation("{message}", message);
                                 return RedirectToAction("Index", "Home");
                             }
-                            else
-                            {
-                                ModelState.AddModelError("All",
-                                "Wrong Username/Password");
-                            }
+                            ModelState.AddModelError("Input.Password", "Wrong password");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Input.Email", $"User with identifies \"{Input.Email}\"" +
+                             "does not exist");
                         }
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty,
-                        "Invalid login attempt");
-                }
-
             }
             return Page();
         }
-
         public async Task<bool> CheckIfUserInRoleAsync(string identifier, string role)
         {
             var user = await _userManager.FindByNameAsync(identifier);
@@ -118,7 +107,5 @@ namespace EarlyMan.Areas.Identity.Pages.Account
             }
             return false;
         }
-
-
     }
 }
